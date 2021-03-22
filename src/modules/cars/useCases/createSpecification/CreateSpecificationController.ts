@@ -1,14 +1,14 @@
 import { Request, Response } from 'express';
 
-import CreateCategoryUseCase from './CreateCategoryUseCase';
+import CreateSpecificationUseCase from './CreateSpecificationUseCase';
 
 class CreateSpecificationController {
-    constructor(private createCategoryUseCase: CreateCategoryUseCase) {}
+    constructor(private CreateSpecificationUseCase: CreateSpecificationUseCase) {}
 
     handle(request: Request, response: Response): Response {
         const { name, description } = request.body;
 
-        this.createCategoryUseCase.execute({
+        this.CreateSpecificationUseCase.execute({
             name,
             description,
         });

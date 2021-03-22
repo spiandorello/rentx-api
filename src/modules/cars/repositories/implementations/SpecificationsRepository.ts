@@ -4,8 +4,18 @@ import ICategoriesRepository from "../ICategoriesRepository";
 class SpecificationsRepository implements ICategoriesRepository {
     private repository: Specification[];
 
-    constructor() {
+    private static INSTANCE: SpecificationsRepository;
+
+    private constructor() {
         this.repository = [];
+    }
+
+    public static getInstance(): SpecificationsRepository {
+        if (!SpecificationsRepository.INSTANCE) {
+           return this.INSTANCE = new SpecificationsRepository();
+        }
+
+        return this.INSTANCE;
     }
 
     findAll(): Specification[] {
