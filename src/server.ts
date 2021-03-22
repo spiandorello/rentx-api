@@ -1,13 +1,10 @@
 import express from 'express';
-
-import categoriesRoute from './routes/categories.route';
-import specificationsRoute from './routes/specifications.route';
+import router from './routes';
 
 const app = express();
 
 app.use(express.json());
 
-app.use('/categories', categoriesRoute);
-app.use('/specifications', specificationsRoute);
+app.use(router);
 
 app.listen(3000);
