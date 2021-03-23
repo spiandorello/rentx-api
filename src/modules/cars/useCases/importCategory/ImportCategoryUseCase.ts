@@ -25,6 +25,7 @@ class ImportCategoryUseCase {
                 .pipe(parser)
                 .on('data', ({ name, description }) => categories.push({ name, description }))
                 .on('end', () => {
+                    fs.unlinkSync(filepath);
                     return resolve(categories);
                 })
                 .on('error', reject);
