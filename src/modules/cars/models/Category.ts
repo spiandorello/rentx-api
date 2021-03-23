@@ -3,7 +3,6 @@ import { v4 as uuidV4 } from "uuid";
 interface ICategoryDTO {
     name: string;
     description: string;
-    createdAt?: Date
 }
 
 class Category {
@@ -17,6 +16,7 @@ class Category {
 
     constructor() {
         this.id = uuidV4();
+        this.createdAt = new Date();
     }
 }
 
