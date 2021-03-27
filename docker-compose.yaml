@@ -21,6 +21,8 @@ services:
     hostname: rt-postgres
     container_name: rt-postgres
     restart: always
+    ports:
+      - "5432:5432"
     environment:
       POSTGRES_DB: rentx
       POSTGRES_USER: root
