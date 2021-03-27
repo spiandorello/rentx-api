@@ -1,11 +1,39 @@
 version: "3.9"
 
 services:
-  app:
-    container_name: "rentx"
+  rt-app:
     build: .
+    hostname: rentx
+    container_name: rentx
+    restart: always
     ports:
       - "3000:3000"
     command: ["npm", "run", "dev:server"]
+    volumes:
+      - ./:/usr/app
+    depends_on:
+      - rt-postgres
+    networks:
+      - default
 
+  rt-postgres:
+    image: postgres:latest
+    hostname: rt-postgres
+    container_name: rt-postgres
+    restart: always
+    environment:
+      POSTGRES_DB: rentx
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+    volumes:
+      - "/var/run/postgres/postgres.sock:/var/run/postgres/postgres.sock"
+      - "rt-postgres:/var/lib/postgresql/data"
+    networks:
+      - default
 
+networks:
+  default:
+    driver: bridge
+
+volumes:
+  rt-postgres:
