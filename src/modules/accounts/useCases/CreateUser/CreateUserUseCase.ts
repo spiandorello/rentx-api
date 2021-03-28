@@ -2,7 +2,13 @@ import { inject, injectable } from 'tsyringe';
 import { hash } from 'bcrypt';
 
 import IUsersRepository from '../../repositories/IUsersRepository';
-import CreateUserDto from "../../dtos/CreateUserDto";
+
+interface IRequest {
+    name: string,
+    email: string,
+    password: string,
+    driverLicense: string
+}
 
 @injectable()
 class CreateUserUseCase {
@@ -11,7 +17,7 @@ class CreateUserUseCase {
         private usersRepository: IUsersRepository
     ) {}
 
-    async execute({ name, email, password, driverLicense }: CreateUserDto): Promise<void> {
+    async execute({ name, email, password, driverLicense }: IRequest): Promise<void> {
         const userAlreadyExists = await this.usersRepository.findByEmail(email);
         if (userAlreadyExists) {
             throw new Error('User already used');
