@@ -1,11 +1,11 @@
-import { Category } from '../models/Category';
+import Category from '../entities/Category';
 
 interface ICategoriesRepository {
-    findByName(name: string): Category | undefined;
+    findByName(name: string): Promise<Category | undefined>;
 
-    findAll(): Category[];
+    findAll(): Promise<Category[]>;
 
-    save(data: Category): void;
+    save(data: Category): Promise<void>;
 }
 
 export default ICategoriesRepository;

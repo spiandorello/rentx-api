@@ -1,7 +1,8 @@
-import { Specification } from "../../models/Specification";
+import { Specification } from "../../entities/Specification";
 import ICategoriesRepository from "../ICategoriesRepository";
+import {Category} from "../../entities/Category";
 
-class SpecificationsRepository implements ICategoriesRepository {
+class SpecificationsRepository {
     private repository: Specification[];
 
     private static INSTANCE: SpecificationsRepository;
@@ -22,8 +23,8 @@ class SpecificationsRepository implements ICategoriesRepository {
         return this.repository;
     }
 
-    public findByName(name: string): Specification | undefined {
-        return this.repository.find(Specification => Specification.name === name);
+    public findByName(name: string): void {
+        // return this.repository.find(Specification => Specification.name === name);
     }
 
     public save(data: Specification): void {

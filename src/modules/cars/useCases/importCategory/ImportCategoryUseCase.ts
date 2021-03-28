@@ -1,7 +1,7 @@
 import fs from 'fs';
 import csvParser from 'csv-parser';
 import CategoriesRepository from "../../repositories/implementations/CategoriesRepository";
-import {Category} from "../../models/Category";
+import {Category} from "../../entities/Category";
 
 interface IRequest {
     file: Express.Multer.File;

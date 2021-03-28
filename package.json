@@ -5,7 +5,8 @@
   "author": "Spiandorello",
   "license": "MIT",
   "scripts": {
-    "dev:server": "ts-node-dev --transpile-only --ignore-watch node_modules src/server.ts"
+    "dev:server": "ts-node-dev --transpile-only --ignore-watch node_modules src/server.ts",
+    "typeorm": "ts-node-dev ./node_modules/typeorm/cli"
   },
   "dependencies": {
     "csv-parser": "^3.0.0",
