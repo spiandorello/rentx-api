@@ -1,5 +1,6 @@
 import fs from 'fs';
 import csvParser from 'csv-parser';
+import { inject, injectable } from 'tsyringe';
 
 import Category from '../../entities/Category';
 import CategoriesRepository from '../../repositories/implementations/CategoriesRepository';
@@ -13,8 +14,12 @@ interface ICategoryImport {
     description: string;
 }
 
+@injectable()
 class ImportCategoryUseCase {
-    public constructor(private categoriesRepository: CategoriesRepository) {
+    public constructor(
+        @inject('CategoriesRepository')
+        private categoriesRepository: CategoriesRepository
+    ) {
     }
 
     private loadFile(filepath: string): Promise<ICategoryImport[]> {
@@ -36,8 +41,8 @@ class ImportCategoryUseCase {
     async execute({ file }: IRequest): Promise<void> {
         const dataParsed = await this.loadFile(file.path);
 
-        dataParsed.forEach(({ name, description }) => {
-            const categoryAlreadyExists = this.categoriesRepository.findByName(name);
+        dataParsed.map(async ({ name, description }) => {
+            const categoryAlreadyExists = await this.categoriesRepository.findByName(name);
             if (!categoryAlreadyExists) {
                 const category = new Category();
                 Object.assign(category, {
@@ -45,7 +50,7 @@ class ImportCategoryUseCase {
                     description,
                 });
 
-                this.categoriesRepository.save(category);
+                await this.categoriesRepository.save(category);
             }
         });
     }
