@@ -1,6 +1,8 @@
 import { Response, Request, NextFunction } from 'express';
 import { verify } from 'jsonwebtoken';
-import UsersRepository from "../modules/accounts/repositories/implementations/UsersRepository";
+
+import AppError from '../errors/AppError';
+import UsersRepository from '../modules/accounts/repositories/implementations/UsersRepository';
 
 interface IPayload {
     id: string;
@@ -10,7 +12,7 @@ async function ensureAuthenticate(request: Request, response: Response, next: Ne
     const { authorization } = request.headers;
 
     if (!authorization) {
-        throw new Error('JWT missing');
+        throw new AppError('JWT missing', 401);
     }
 
     const [, token] = authorization.split(' ');
@@ -21,14 +23,14 @@ async function ensureAuthenticate(request: Request, response: Response, next: Ne
         const repository = new UsersRepository();
         const user = await repository.find(id);
         if (!user) {
-            throw new Error('User not found');
+            throw new AppError('User not found', 401);
         }
 
         // request.user = user;
 
         return next();
     } catch (error) {
-        throw new Error('Invalid token');
+        throw new AppError('Invalid token', 401);
     }
 }
 
