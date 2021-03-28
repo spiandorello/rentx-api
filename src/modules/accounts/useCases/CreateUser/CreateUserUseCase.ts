@@ -1,4 +1,5 @@
 import { inject, injectable } from 'tsyringe';
+import { hash } from 'bcrypt';
 
 import IUsersRepository from '../../repositories/IUsersRepository';
 import CreateUserDto from "../../dtos/CreateUserDto";
@@ -16,10 +17,12 @@ class CreateUserUseCase {
             throw new Error('User already used');
         }
 
+        const passwordHashed = await hash(password, 8);
+
         await this.usersRepository.create({
             name,
             email,
-            password,
+            password: passwordHashed,
             driverLicense
         });
     }
