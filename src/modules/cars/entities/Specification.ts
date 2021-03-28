@@ -1,23 +1,18 @@
-import { v4 as uuidV4 } from "uuid";
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
-interface ISpecificationDTO {
-    name: string;
-    description: string;
-    createdAt?: Date
-}
-
+@Entity('specifications')
 class Specification {
-    id?: string;
+    @PrimaryGeneratedColumn('uuid')
+    id: string;
 
+    @Column()
     name: string;
 
+    @Column()
     description: string;
 
+    @Column({ name: 'created_at' })
     createdAt: Date;
-
-    constructor() {
-        this.id = uuidV4();
-    }
 }
 
-export { Specification, ISpecificationDTO };
+export default Specification;

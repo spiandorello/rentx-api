@@ -1,34 +1,30 @@
-import { Specification } from "../../entities/Specification";
-import ICategoriesRepository from "../ICategoriesRepository";
-import {Category} from "../../entities/Category";
+import { getRepository, Repository } from 'typeorm';
 
-class SpecificationsRepository {
-    private repository: Specification[];
+import Specification from '../../entities/Specification';
+import ISpecificationsRepository from '../ISpecificationsRepository';
 
-    private static INSTANCE: SpecificationsRepository;
+class SpecificationsRepository implements ISpecificationsRepository {
+    private repository: Repository<Specification>;
 
-    private constructor() {
-        this.repository = [];
+    constructor() {
+        this.repository = getRepository(Specification);
     }
 
-    public static getInstance(): SpecificationsRepository {
-        if (!SpecificationsRepository.INSTANCE) {
-           return this.INSTANCE = new SpecificationsRepository();
-        }
-
-        return this.INSTANCE;
+    async findAll(): Promise<Specification[]> {
+        return this.repository.find();
     }
 
-    findAll(): Specification[] {
-        return this.repository;
+    async findByName(name: string): Promise<Specification | undefined> {
+        return this.repository.findOne({ name });
     }
 
-    public findByName(name: string): void {
-        // return this.repository.find(Specification => Specification.name === name);
-    }
+    async save({ name, description }: Specification): Promise<void> {
+        const specification = this.repository.create({
+            name,
+            description
+        });
 
-    public save(data: Specification): void {
-        this.repository.push(data);
+        await this.repository.save(specification);
     }
 }
 

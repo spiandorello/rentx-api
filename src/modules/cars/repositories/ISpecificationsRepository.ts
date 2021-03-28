@@ -1,11 +1,11 @@
-import { Specification } from '../entities/Specification';
+import Specification from '../entities/Specification';
 
 interface ISpecificationsRepository {
-    findByName(name: string): Specification | undefined;
+    findByName(name: string): Promise<Specification | undefined>;
 
-    findAll(): Specification[];
+    findAll(): Promise<Specification[]>;
 
-    save(data: Specification): void;
+    save(data: Specification): Promise<void>;
 }
 
 export default ISpecificationsRepository;
