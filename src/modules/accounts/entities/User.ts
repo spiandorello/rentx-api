@@ -20,6 +20,9 @@ class User {
     @Column({ name: 'is_admin' })
     isAdmin: boolean;
 
+    @Column()
+    avatar: string;
+
     @Column({ name: 'created_at' })
     createdAt: Date;
 }

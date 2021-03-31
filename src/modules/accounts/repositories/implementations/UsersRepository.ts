@@ -19,12 +19,14 @@ class UsersRepository implements IUsersRepository {
         return this.repository.findOne({ email });
     }
 
-    async create({ name, email, password, driverLicense }: CreateUserDto): Promise<void> {
+    async create({ name, email, password, driverLicense, avatar, id }: CreateUserDto): Promise<void> {
         const user = new User();
 
         Object.assign(user, {
+            id,
             name,
             email,
+            avatar,
             password,
             driverLicense
         });
