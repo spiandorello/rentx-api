@@ -26,7 +26,7 @@ async function ensureAuthenticate(request: Request, response: Response, next: Ne
             throw new AppError('User not found', 401);
         }
 
-        // request.user = user;
+        request.user = { id };
 
         return next();
     } catch (error) {
