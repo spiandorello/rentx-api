@@ -1,6 +1,7 @@
-import Category from '../../entities/Category';
-import ICategoriesRepository from '../ICategoriesRepository';
 import { v4 as uuidv4 } from 'uuid';
+
+import Category from '@modules/cars/entities/Category';
+import ICategoriesRepository from '../ICategoriesRepository';
 
 class CategoriesRepositoryInMemory implements ICategoriesRepository {
     categories: Category[];

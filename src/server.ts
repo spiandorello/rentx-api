@@ -7,10 +7,10 @@ import swaggerUi from 'swagger-ui-express';
 import swaggerDocument from '../swagger.json';
 
 import './database';
-import './shared/container';
+import '@shared/container';
 
 import router from './routes';
-import AppError from './errors/AppError';
+import AppError from '@errors/AppError';
 
 const DEFAULT_PORT = 3000;
 

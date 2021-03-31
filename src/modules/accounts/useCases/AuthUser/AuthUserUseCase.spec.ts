@@ -1,7 +1,6 @@
 import AuthUserUseCase from './AuthUserUseCase';
-import AppError from '../../../../errors/AppError';
-import UsersInMemoryRepository from '../../repositories/UsersInMemoryRepository';
-import CreateUserDto from "../../dtos/CreateUserDto";
+import AppError from '@errors/AppError';
+import UsersInMemoryRepository from '@modules/accounts/repositories/UsersInMemoryRepository';
 
 let usersRepository: UsersInMemoryRepository;
 let authUserUseCase: AuthUserUseCase;

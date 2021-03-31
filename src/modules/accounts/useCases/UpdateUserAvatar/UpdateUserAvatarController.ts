@@ -3,8 +3,6 @@ import { container } from 'tsyringe';
 
 import UpdateUserAvatarUseCase from './UpdateUserAvatarUseCase';
 
-import { deleteFile } from '../../../../utils/file';
-
 class UpdateUserAvatarController {
     public async handle(request: Request, response: Response): Promise<Response> {
         const { id } = request.user;
