@@ -3,7 +3,7 @@ import csvParser from 'csv-parser';
 import { inject, injectable } from 'tsyringe';
 
 import Category from '@modules/cars//entities/Category';
-import CategoriesRepository from '@modules/cars/repositories/implementations/CategoriesRepository';
+import CategoriesRepository from '@modules/cars/infra/typeorm/repositories/CategoriesRepository';
 
 interface IRequest {
     file: Express.Multer.File;

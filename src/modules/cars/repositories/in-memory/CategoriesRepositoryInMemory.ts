@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 
-import Category from '@modules/cars/entities/Category';
+import Category from '@modules/cars/infra/typeorm/entities/Category';
 import ICategoriesRepository from '../ICategoriesRepository';
 
 class CategoriesRepositoryInMemory implements ICategoriesRepository {

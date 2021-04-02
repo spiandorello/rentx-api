@@ -1,7 +1,7 @@
 import { hash } from 'bcryptjs';
 import { v4 as uuidv4 } from 'uuid';
 
-import User from '../entities/User';
+import User from '../infra/typeorm/entities/User';
 import CreateUserDto from '../dtos/CreateUserDto';
 import IUsersRepository from './IUsersRepository';
 

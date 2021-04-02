@@ -1,5 +1,5 @@
 import AuthUserUseCase from './AuthUserUseCase';
-import AppError from '@errors/AppError';
+import AppError from '@shared/errors/AppError';
 import UsersInMemoryRepository from '@modules/accounts/repositories/UsersInMemoryRepository';
 
 let usersRepository: UsersInMemoryRepository;
