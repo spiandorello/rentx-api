@@ -9,8 +9,9 @@ async function ensureAdmin(request: Request, response: Response, next: NextFunct
     const userRepository = new UsersRepository();
     const user = await userRepository.find(id);
 
-    if (!user?.isAdmin) {
-        throw new AppError('User must be an admin')
+    // @ts-ignore
+    if (!user.isAdmin) {
+        throw new AppError('User must be an admin!')
     }
 
     return next();
