@@ -3,15 +3,18 @@ import IRentalsRepository from '@modules/rentals/repositories/IRentalsRepository
 import RentalsRepositoryInMemory from '@modules/rentals/repositories/in-memory/RentalsRepositoryInMemory';
 
 import ICreateRentalDto from '@modules/rentals/dtos/ICreateRentalDto';
-import AppError from "@shared/errors/AppError";
+import DayjsDateProvider from '@shared/container/providers/DateProvider/implementations/DayjsDateProvider';
+import AppError from '@shared/errors/AppError';
 
+let dateProvider: IDateProvider;
 let rentalsRepository: IRentalsRepository;
 let createRentalUseCase: CreateRentalUseCase;
 
 describe("Create rental", () => {
    beforeEach(() => {
+       dateProvider = new DayjsDateProvider();
        rentalsRepository = new RentalsRepositoryInMemory();
-       createRentalUseCase = new CreateRentalUseCase(rentalsRepository);
+       createRentalUseCase = new CreateRentalUseCase(rentalsRepository, dateProvider);
    });
 
     it('should be able to create a new rental', async () => {
@@ -19,7 +22,7 @@ describe("Create rental", () => {
             userId: "12345",
             carId: "111",
             startAt: new Date(3021, 5, 5),
-            expectReturnDate: new Date()
+            expectReturnDate: new Date(3021, 5, 6)
         };
 
         const newRental = await createRentalUseCase.execute(rental);
@@ -33,7 +36,7 @@ describe("Create rental", () => {
             userId: "sameUser",
             carId: "111123",
             startAt: new Date(3021, 5, 5),
-            expectReturnDate: new Date()
+            expectReturnDate: new Date(3021, 5, 6)
         };
 
         await createRentalUseCase.execute(rentalOne);
@@ -42,7 +45,7 @@ describe("Create rental", () => {
             userId: "sameUser",
             carId: "12341231234",
             startAt: new Date(3021, 5, 5),
-            expectReturnDate: new Date()
+            expectReturnDate: new Date(3021, 5, 6)
         };
 
         await expect(createRentalUseCase.execute(rental))
@@ -55,7 +58,7 @@ describe("Create rental", () => {
             userId: "123123",
             carId: "carOne",
             startAt: new Date(3021, 5, 5),
-            expectReturnDate: new Date()
+            expectReturnDate: new Date(3021, 5, 6)
         };
 
         await createRentalUseCase.execute(rentalOne);
@@ -64,7 +67,7 @@ describe("Create rental", () => {
             userId: "132413241234",
             carId: "carOne",
             startAt: new Date(3021, 5, 5),
-            expectReturnDate: new Date()
+            expectReturnDate: new Date(3021, 5, 6)
         };
 
         await expect(createRentalUseCase.execute(rental))
@@ -77,7 +80,20 @@ describe("Create rental", () => {
             userId: "123123",
             carId: "carOne",
             startAt: new Date(2020, 5, 30),
-            expectReturnDate: new Date()
+            expectReturnDate: new Date(3021, 5, 6)
+        };
+
+        await expect(createRentalUseCase.execute(rental))
+            .rejects
+            .toBeInstanceOf(AppError);
+    });
+
+    it('should not be able to create a new rental with expect return date less than one day', async () => {
+        const rental: ICreateRentalDto = {
+            userId: "123123",
+            carId: "carOne",
+            startAt: new Date(3021, 5, 6),
+            expectReturnDate: new Date(3021, 5, 6, 12, 0, 0),
         };
 
         await expect(createRentalUseCase.execute(rental))

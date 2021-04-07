@@ -14,6 +14,7 @@ import CarsRepository from '@modules/cars/infra/typeorm/repositories/CarsReposit
 
 import ICarsImageRepository from '@modules/cars/repositories/ICarsImageRepository';
 import CarsImageRepository from '@modules/cars/infra/typeorm/repositories/CarsImageRepository';
+import DayjsDateProvider from "@shared/container/providers/DateProvider/implementations/DayjsDateProvider";
 
 container.registerSingleton<ICarsRepository>(
     'CarsRepository',
@@ -38,4 +39,9 @@ container.registerSingleton<ISpecificationsRepository>(
 container.registerSingleton<IUsersRepository>(
     'UsersRepository',
     UsersRepository
+);
+
+container.registerInstance<IDateProvider>(
+    'DateProvider',
+    new DayjsDateProvider()
 );
