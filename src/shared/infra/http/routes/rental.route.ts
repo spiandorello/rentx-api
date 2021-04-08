@@ -2,17 +2,22 @@ import { Router } from 'express';
 
 import CreateRentalController from '@modules/rentals/useCases/createRental/createRentalController';
 
-import ensureAdmin from '@shared/infra/http/middlewares/ensureAdmin';
 import ensureAuthenticate from '@shared/infra/http/middlewares/ensureAuthenticate';
+import DevolutionRentalController from "@modules/rentals/useCases/devolutionRental/devolutionRentalController";
 
 const rentalsRoute = Router();
 
 const createRentalController = new CreateRentalController();
+const devolutionRentalController = new DevolutionRentalController();
 
 rentalsRoute.post('/',
     ensureAuthenticate,
-    ensureAdmin,
     createRentalController.handle
+);
+
+rentalsRoute.post('/devolution/:id',
+    ensureAuthenticate,
+    devolutionRentalController.handle
 );
 
 export default rentalsRoute;

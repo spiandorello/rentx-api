@@ -3,7 +3,6 @@ import { getRepository, Repository } from 'typeorm';
 import Car from '@modules/cars/infra/typeorm/entities/Car';
 import ICreateCarDto from '@modules/cars/dtos/ICreateCarDto';
 import ICarsRepository from '@modules/cars/repositories/ICarsRepository';
-import Specification from "@modules/cars/infra/typeorm/entities/Specification";
 
 class CarsRepository implements ICarsRepository {
     private repository: Repository<Car>
@@ -70,12 +69,10 @@ class CarsRepository implements ICarsRepository {
     }
 
     async updateAvailable(carId: string, isAvailable: boolean): Promise<void> {
-        await this.repository.createQueryBuilder('car')
+        await this.repository.createQueryBuilder()
             .update('cars')
-            .set('is_available = :isAvailable')
-            .where('id = :carId')
-            .setParameter('isAvailable', isAvailable)
-            .setParameter('carId', carId)
+            .set({ isAvailable })
+            .where({ id: carId })
             .execute()
 
     }

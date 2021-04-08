@@ -34,6 +34,11 @@ class CreateRentalUseCase {
             throw new AppError('Can not create a rental on past');
         }
 
+        const car = await this.carsRepository.find(carId);
+        if (!car) {
+            throw new AppError('Car not found!');
+        }
+
         const isCarUnavailable = await this.rentalsRepository.findOpenRentalByCar(carId);
         if (isCarUnavailable) {
             throw new AppError('Car is unavailable');
@@ -48,7 +53,6 @@ class CreateRentalUseCase {
         if (diffStartAtDateAndExpectReturnDateInHours < CreateRentalUseCase.minRentalReturnDateInHours) {
             throw new AppError('Expect return date must be at least one day!');
         }
-
         await this.carsRepository.updateAvailable(carId, false);
 
         return this.rentalsRepository.create({
