@@ -4,6 +4,7 @@ import Rental from '@modules/rentals/infra/typeorm/entities/Rental';
 import IRentalsRepository from '@modules/rentals/repositories/IRentalsRepository';
 
 import AppError from '@shared/errors/AppError';
+import ICarsRepository from '@modules/cars/repositories/ICarsRepository';
 
 interface IRequest {
     userId: string;
@@ -20,6 +21,8 @@ class CreateRentalUseCase {
     constructor(
         @inject('RentalsRepository')
         private rentalsRepository: IRentalsRepository,
+        @inject('CarsRepository')
+        private carsRepository: ICarsRepository,
         @inject('DateProvider')
         private dateProvider: IDateProvider,
     ) {}
@@ -45,6 +48,8 @@ class CreateRentalUseCase {
         if (diffStartAtDateAndExpectReturnDateInHours < CreateRentalUseCase.minRentalReturnDateInHours) {
             throw new AppError('Expect return date must be at least one day!');
         }
+
+        await this.carsRepository.updateAvailable(carId, false);
 
         return this.rentalsRepository.create({
             userId,

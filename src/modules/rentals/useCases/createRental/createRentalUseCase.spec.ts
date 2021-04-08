@@ -3,18 +3,23 @@ import IRentalsRepository from '@modules/rentals/repositories/IRentalsRepository
 import RentalsRepositoryInMemory from '@modules/rentals/repositories/in-memory/RentalsRepositoryInMemory';
 
 import ICreateRentalDto from '@modules/rentals/dtos/ICreateRentalDto';
+import ICarsRepository from '@modules/cars/repositories/ICarsRepository';
 import DayjsDateProvider from '@shared/container/providers/DateProvider/implementations/DayjsDateProvider';
 import AppError from '@shared/errors/AppError';
+import CarsRepositoryInMemory from "@modules/cars/repositories/in-memory/CarsRepositoryInMemory";
 
 let dateProvider: IDateProvider;
+let carsRepository: ICarsRepository;
 let rentalsRepository: IRentalsRepository;
 let createRentalUseCase: CreateRentalUseCase;
+
 
 describe("Create rental", () => {
    beforeEach(() => {
        dateProvider = new DayjsDateProvider();
+       carsRepository = new CarsRepositoryInMemory();
        rentalsRepository = new RentalsRepositoryInMemory();
-       createRentalUseCase = new CreateRentalUseCase(rentalsRepository, dateProvider);
+       createRentalUseCase = new CreateRentalUseCase(rentalsRepository, carsRepository, dateProvider);
    });
 
     it('should be able to create a new rental', async () => {
