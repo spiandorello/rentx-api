@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
+import Car from "@modules/cars/infra/typeorm/entities/Car";
 
 @Entity('rentals')
 class Rental {
@@ -7,6 +8,10 @@ class Rental {
 
     @Column({ name: 'user_id' })
     userId: string;
+
+    @ManyToOne(() => Car)
+    @JoinColumn({  name: 'car_id' })
+    car: Car;
 
     @Column({ name: 'car_id' })
     carId: string;

@@ -47,6 +47,15 @@ class RentalsRepository implements IRentalsRepository {
             }
         });
     }
+
+    async findAllByUser(userId: string): Promise<Rental[]> {
+        return this.repository.find({
+            where: {
+                userId: userId,
+            },
+            relations: ["car"]
+        });
+    }
 }
 
 export default RentalsRepository;
