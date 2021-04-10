@@ -23,9 +23,20 @@ describe("Create rental", () => {
    });
 
     it('should be able to create a new rental', async () => {
+
+        const car = await carsRepository.create({
+            name: "Car test",
+            description: "A new car test",
+            brand: "TEST",
+            fineAmount: 1234,
+            dailyRate: 100,
+            licensePlate: "1234",
+            categoryId: "13412342134"
+        });
+
         const rental: ICreateRentalDto = {
             userId: "12345",
-            carId: "111",
+            carId: car.id,
             startAt: new Date(3021, 5, 5),
             expectReturnDate: new Date(3021, 5, 6)
         };
@@ -37,9 +48,19 @@ describe("Create rental", () => {
     });
 
     it('should not be able to create a new rental when user has an open one', async () => {
+        const car = await carsRepository.create({
+            name: "Car test",
+            description: "A new car test",
+            brand: "TEST",
+            fineAmount: 1234,
+            dailyRate: 100,
+            licensePlate: "1234",
+            categoryId: "13412342134"
+        });
+
         const rentalOne: ICreateRentalDto = {
             userId: "sameUser",
-            carId: "111123",
+            carId: car.id,
             startAt: new Date(3021, 5, 5),
             expectReturnDate: new Date(3021, 5, 6)
         };
@@ -48,7 +69,7 @@ describe("Create rental", () => {
 
         const rental: ICreateRentalDto = {
             userId: "sameUser",
-            carId: "12341231234",
+            carId: car.id,
             startAt: new Date(3021, 5, 5),
             expectReturnDate: new Date(3021, 5, 6)
         };
@@ -59,9 +80,19 @@ describe("Create rental", () => {
     });
 
     it('should not be able to create a new rental when car has an open one', async () => {
+        const car = await carsRepository.create({
+            name: "Car test",
+            description: "A new car test",
+            brand: "TEST",
+            fineAmount: 1234,
+            dailyRate: 100,
+            licensePlate: "1234",
+            categoryId: "13412342134"
+        });
+
         const rentalOne: ICreateRentalDto = {
             userId: "123123",
-            carId: "carOne",
+            carId: car.id,
             startAt: new Date(3021, 5, 5),
             expectReturnDate: new Date(3021, 5, 6)
         };
@@ -70,7 +101,7 @@ describe("Create rental", () => {
 
         const rental: ICreateRentalDto = {
             userId: "132413241234",
-            carId: "carOne",
+            carId: car.id,
             startAt: new Date(3021, 5, 5),
             expectReturnDate: new Date(3021, 5, 6)
         };
@@ -81,9 +112,19 @@ describe("Create rental", () => {
     });
 
     it('should not be able to create a new rental on past', async () => {
+        const car = await carsRepository.create({
+            name: "Car test",
+            description: "A new car test",
+            brand: "TEST",
+            fineAmount: 1234,
+            dailyRate: 100,
+            licensePlate: "1234",
+            categoryId: "13412342134"
+        });
+
         const rental: ICreateRentalDto = {
             userId: "123123",
-            carId: "carOne",
+            carId: car.id,
             startAt: new Date(2020, 5, 30),
             expectReturnDate: new Date(3021, 5, 6)
         };
@@ -94,8 +135,18 @@ describe("Create rental", () => {
     });
 
     it('should not be able to create a new rental with expect return date less than one day', async () => {
+        const car = await carsRepository.create({
+            name: "Car test",
+            description: "A new car test",
+            brand: "TEST",
+            fineAmount: 1234,
+            dailyRate: 100,
+            licensePlate: "1234",
+            categoryId: "13412342134"
+        });
+
         const rental: ICreateRentalDto = {
-            userId: "123123",
+            userId: car.id,
             carId: "carOne",
             startAt: new Date(3021, 5, 6),
             expectReturnDate: new Date(3021, 5, 6, 12, 0, 0),
