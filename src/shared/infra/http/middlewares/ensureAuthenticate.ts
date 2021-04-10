@@ -3,9 +3,11 @@ import { verify } from 'jsonwebtoken';
 
 import AppError from '../../../errors/AppError';
 import UsersRepository from '@modules/accounts/infra/typeorm/repositories/UsersRepository';
+import UserTokensRepository from "@modules/accounts/infra/typeorm/repositories/UserTokensRepository";
+import auth from "@config/auth";
 
 interface IPayload {
-    id: string;
+    sub: string;
 }
 
 async function ensureAuthenticate(request: Request, response: Response, next: NextFunction) {
@@ -18,15 +20,16 @@ async function ensureAuthenticate(request: Request, response: Response, next: Ne
     const [, token] = authorization.split(' ');
 
     try {
-        const { id } = verify(token, '89805839-da4e-4b40-ac56-c71d19061f88') as IPayload;
+        const usersTokenRepository = new UserTokensRepository();
 
-        const repository = new UsersRepository();
-        const user = await repository.find(id);
+        const { sub: userId } = verify(token, auth.secretRefreshToken) as IPayload;
+
+        const user = usersTokenRepository.findByRefreshTokenAndUserId(token, userId);
         if (!user) {
             throw new AppError('User not found', 401);
         }
 
-        request.user = { id };
+        request.user = { id: userId };
 
         return next();
     } catch (error) {

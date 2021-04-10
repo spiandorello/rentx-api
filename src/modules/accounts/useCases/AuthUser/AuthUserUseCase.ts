@@ -50,7 +50,7 @@ class AuthUserUseCase {
             expiresIn: auth.expiresInToken
         });
 
-        const refreshToken = sign({ email }, await hash(auth.secretRefreshToken, 8), {
+        const refreshToken = sign({ email }, auth.secretRefreshToken, {
             subject: user.id,
             expiresIn: auth.expiresInRefreshToken
         });
