@@ -3,4 +3,5 @@ interface IDateProvider {
     compareInDays(startAt: Date, finishAt: Date): number;
     addDays(days: number): Date;
     addHours(hours: number): Date;
+    isBefore(startAt: Date, finishAt: Date): boolean;
 }

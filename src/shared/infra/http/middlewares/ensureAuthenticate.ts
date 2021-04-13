@@ -1,10 +1,9 @@
 import { Response, Request, NextFunction } from 'express';
 import { verify } from 'jsonwebtoken';
 
+import auth from "@config/auth";
 import AppError from '../../../errors/AppError';
 import UsersRepository from '@modules/accounts/infra/typeorm/repositories/UsersRepository';
-import UserTokensRepository from "@modules/accounts/infra/typeorm/repositories/UserTokensRepository";
-import auth from "@config/auth";
 
 interface IPayload {
     sub: string;
@@ -20,16 +19,16 @@ async function ensureAuthenticate(request: Request, response: Response, next: Ne
     const [, token] = authorization.split(' ');
 
     try {
-        const usersTokenRepository = new UserTokensRepository();
+        const usersRepository = new UsersRepository();
 
         const { sub: userId } = verify(token, auth.secretRefreshToken) as IPayload;
 
-        const user = usersTokenRepository.findByRefreshTokenAndUserId(token, userId);
+        const user = await usersRepository.find(userId);
         if (!user) {
             throw new AppError('User not found', 401);
         }
 
-        request.user = { id: userId };
+        request.user = { id: user.id };
 
         return next();
     } catch (error) {
