@@ -21,7 +21,7 @@ async function ensureAuthenticate(request: Request, response: Response, next: Ne
     try {
         const usersRepository = new UsersRepository();
 
-        const { sub: userId } = verify(token, auth.secretRefreshToken) as IPayload;
+        const { sub: userId } = verify(token, auth.secretToken) as IPayload;
 
         const user = await usersRepository.find(userId);
         if (!user) {

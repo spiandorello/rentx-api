@@ -1,9 +1,9 @@
 import { injectable, inject } from "tsyringe";
 
 import AppError from '@shared/errors/AppError';
-import CarImage from '@modules/cars/infra/typeorm/entities/CarImage';
 import ICarsRepository from '@modules/cars/repositories/ICarsRepository';
 import ICarsImageRepository from '@modules/cars/repositories/ICarsImageRepository';
+import IStorageProvider from '@shared/container/providers/StorageProvider/IStorageProvider';
 
 interface IRequest {
     imagesName: string[];
@@ -15,9 +15,10 @@ class UploadCarImageUseCase {
     constructor(
         @inject('CarsRepository')
         private carsRepository: ICarsRepository,
-
         @inject('CarsImageRepository')
-        private carsImageRepository: ICarsImageRepository
+        private carsImageRepository: ICarsImageRepository,
+        @inject('StorageProvider')
+        private storageProvider: IStorageProvider
     ) {}
 
     async execute({
@@ -30,7 +31,10 @@ class UploadCarImageUseCase {
             throw new AppError('Car not found!');
         }
 
-        imagesName.forEach(imageName => this.carsImageRepository.create(carId, imageName));
+        imagesName.map(async (imageName) => {
+            await this.carsImageRepository.create(carId, imageName);
+            await this.storageProvider.save(imageName, 'cars');
+        });
     }
 }
 
