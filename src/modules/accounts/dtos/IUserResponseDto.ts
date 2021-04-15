@@ -5,6 +5,6 @@ interface IUserResponseDTO {
     email: string;
     avatar_url(): string | null;
     driver_license: string;
-} 
+}
 
 export default IUserResponseDTO;
