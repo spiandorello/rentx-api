@@ -34,8 +34,8 @@ class Car {
   @Column({ name: 'brand' })
   brand: string;
 
-  @Column({ name: 'is_available' })
-  isAvailable = true;
+  @Column({ name: 'is_available', default: true })
+  isAvailable: boolean;
 
   @ManyToOne(() => Category)
   @JoinColumn({ name: 'category_id' })

@@ -6,8 +6,6 @@ import {
   OneToMany,
 } from 'typeorm';
 
-import Car from '@modules/cars/infra/typeorm/entities/Car';
-
 @Entity('cars_image')
 class CarImage {
   @PrimaryGeneratedColumn('uuid')
@@ -15,9 +13,6 @@ class CarImage {
 
   @Column()
   name: string;
-
-  // @OneToMany()
-  // car: Car;
 
   @Column({ name: 'car_id' })
   carId: string;
