@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "es6",
     "module": "commonjs",
     "outDir": "./build",
     "strict": true,
@@ -12,13 +12,14 @@
       "@shared/*": ["shared/*"],
       "@errors/*": ["errors/*"],
       "@utils/*": ["utils/*"],
-      "@middlewares/*": ["middlewares/*"]
     },
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitAny": false,
+    "sourceMap": true,
   }
 }

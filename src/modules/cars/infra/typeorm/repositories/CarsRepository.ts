@@ -5,77 +5,78 @@ import ICreateCarDto from '@modules/cars/dtos/ICreateCarDto';
 import ICarsRepository from '@modules/cars/repositories/ICarsRepository';
 
 class CarsRepository implements ICarsRepository {
-    private repository: Repository<Car>
+  private repository: Repository<Car>;
 
-    constructor() {
-        this.repository = getRepository(Car);
+  constructor() {
+    this.repository = getRepository(Car);
+  }
+
+  async find(id: string): Promise<Car | undefined> {
+    return this.repository.findOne(id);
+  }
+
+  async findByLicensePlate(licensePlate: string): Promise<Car | undefined> {
+    return this.repository.findOne({ licensePlate });
+  }
+
+  async create({
+    id,
+    name,
+    description,
+    dailyRate,
+    licensePlate,
+    fineAmount,
+    brand,
+    categoryId,
+    specifications,
+  }: ICreateCarDto): Promise<Car> {
+    const car = this.repository.create({
+      name,
+      description,
+      dailyRate,
+      licensePlate,
+      fineAmount,
+      brand,
+      categoryId,
+      specifications,
+      id,
+    });
+
+    return this.repository.save(car);
+  }
+
+  async findAvailable(
+    name?: string,
+    brand?: string,
+    categoryId?: string,
+  ): Promise<Car[]> {
+    const qb = this.repository
+      .createQueryBuilder('c')
+      .where('is_available = true');
+
+    if (name) {
+      qb.andWhere('name = :name').setParameters({ name });
     }
 
-    async find(id: string): Promise<Car | undefined> {
-        return this.repository.findOne(id);
+    if (brand) {
+      qb.andWhere('brand = :brand').setParameters({ brand });
     }
 
-    async findByLicensePlate(licensePlate: string): Promise<Car | undefined> {
-        return this.repository.findOne({ licensePlate });
+    if (categoryId) {
+      qb.andWhere('category_id = :categoryId').setParameters({ categoryId });
     }
 
-    async create({
-         id,
-         name,
-         description,
-         dailyRate,
-         licensePlate,
-         fineAmount,
-         brand,
-         categoryId,
-         specifications,
-    }: ICreateCarDto): Promise<Car> {
-        const car = this.repository.create({
-            name,
-            description,
-            dailyRate,
-            licensePlate,
-            fineAmount,
-            brand,
-            categoryId,
-            specifications,
-            id
-        });
+    return qb.getMany();
+  }
 
-        return this.repository.save(car);
-    }
-
-    async findAvailable(name?: string, brand?: string, categoryId?: string): Promise<Car[]> {
-
-        const qb = this.repository.createQueryBuilder('c')
-            .where('is_available = true');
-
-        if (name) {
-            qb.andWhere('name = :name')
-                .setParameters({ name });
-        }
-
-        if (brand) {
-            qb.andWhere('brand = :brand')
-                .setParameters({ brand });
-        }
-
-        if (categoryId) {
-            qb.andWhere('category_id = :categoryId')
-                .setParameters({ categoryId });
-        }
-
-        return qb.getMany();
-    }
-
-    async updateAvailable(carId: string, isAvailable: boolean): Promise<void> {
-        await this.repository.createQueryBuilder()
-            .update('cars')
-            .set({ isAvailable })
-            .where({ id: carId })
-            .execute()
-
-    }
+  async updateAvailable(carId: string, isAvailable: boolean): Promise<void> {
+    await this.repository
+      .createQueryBuilder()
+      .update('cars')
+      .set({ isAvailable })
+      .where({ id: carId })
+      .execute();
+  }
 }
 
 export default CarsRepository;

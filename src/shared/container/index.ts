@@ -23,38 +23,34 @@ import UserTokensRepository from '@modules/accounts/infra/typeorm/repositories/U
 
 import '@shared/container/providers';
 
-container.registerSingleton<ICarsRepository>(
-    'CarsRepository',
-    CarsRepository
-);
+container.registerSingleton<ICarsRepository>('CarsRepository', CarsRepository);
 
 container.registerSingleton<ICarsImageRepository>(
-    'CarsImageRepository',
-    CarsImageRepository
+  'CarsImageRepository',
+  CarsImageRepository,
 );
 
 container.registerSingleton<IRentalsRepository>(
-    'RentalsRepository',
-    RentalsRepository
+  'RentalsRepository',
+  RentalsRepository,
 );
 
 container.registerSingleton<ICategoryRepository>(
-    'CategoriesRepository',
-    CategoriesRepository
+  'CategoriesRepository',
+  CategoriesRepository,
 );
 
 container.registerSingleton<ISpecificationsRepository>(
-    'SpecificationsRepository',
-    SpecificationsRepository
+  'SpecificationsRepository',
+  SpecificationsRepository,
 );
 
 container.registerSingleton<IUsersRepository>(
-    'UsersRepository',
-    UsersRepository
+  'UsersRepository',
+  UsersRepository,
 );
 
 container.registerSingleton<IUserTokensRepository>(
-    'UserTokensRepository',
-    UserTokensRepository
+  'UserTokensRepository',
+  UserTokensRepository,
 );
-

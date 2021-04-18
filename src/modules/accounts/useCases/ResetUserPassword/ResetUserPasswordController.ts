@@ -4,16 +4,18 @@ import { container } from 'tsyringe';
 import ResetUserPasswordUseCase from './ResetUserPasswordUseCase';
 
 class ResetUserPasswordController {
-    public async handle(request: Request, response: Response): Promise<Response> {
-        const { token } = request.query;
-        const { password } = request.body;
+  public async handle(request: Request, response: Response): Promise<Response> {
+    const { token } = request.query;
+    const { password } = request.body;
 
-        const resetUserPasswordUseCase = container.resolve(ResetUserPasswordUseCase);
+    const resetUserPasswordUseCase = container.resolve(
+      ResetUserPasswordUseCase,
+    );
 
-        await resetUserPasswordUseCase.execute({ token: String(token), password });
+    await resetUserPasswordUseCase.execute({ token: String(token), password });
 
-        return response.send();
-    }
+    return response.send();
+  }
 }
 
 export default ResetUserPasswordController;

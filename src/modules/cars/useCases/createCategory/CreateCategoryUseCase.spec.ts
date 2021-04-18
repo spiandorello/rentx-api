@@ -1,46 +1,48 @@
-import AppError from "@shared/errors/AppError";
-import CreateCategoryUseCase from "./CreateCategoryUseCase";
+import AppError from '@shared/errors/AppError';
 import CategoriesRepositoryInMemory from '@modules/cars/repositories/in-memory/CategoriesRepositoryInMemory';
+import CreateCategoryUseCase from './CreateCategoryUseCase';
 
 let categoryRepository: CategoriesRepositoryInMemory;
 let createCategoryUserCase: CreateCategoryUseCase;
 
 describe('Create category', () => {
-    beforeEach(() => {
-        categoryRepository = new CategoriesRepositoryInMemory();
-        createCategoryUserCase = new CreateCategoryUseCase(categoryRepository);
+  beforeEach(() => {
+    categoryRepository = new CategoriesRepositoryInMemory();
+    createCategoryUserCase = new CreateCategoryUseCase(categoryRepository);
+  });
+
+  it('should be able to create a new category', async () => {
+    const category = {
+      name: 'Style',
+      description: 'Style Category',
+    };
+
+    await createCategoryUserCase.execute({
+      name: category.name,
+      description: category.description,
     });
 
-    it('should be able to create a new category', async () => {
-        const category = {
-            name: 'Style',
-            description: 'Style Category',
-        };
+    const categoryCreated = await categoryRepository.findByName(category.name);
 
-        await createCategoryUserCase.execute({
-            name: category.name,
-            description: category.description,
-        });
+    expect(categoryCreated).toHaveProperty('id');
+  });
 
-        const categoryCreated = await categoryRepository.findByName(category.name)
+  it('should not be able to create a new category with name already existent', async () => {
+    const category = {
+      name: 'Style',
+      description: 'Style Category',
+    };
 
-        expect(categoryCreated).toHaveProperty('id');
+    await createCategoryUserCase.execute({
+      name: category.name,
+      description: category.description,
     });
 
-    it('should not be able to create a new category with name already existent', async () => {
-        const category = {
-            name: 'Style',
-            description: 'Style Category',
-        };
-
-        await createCategoryUserCase.execute({
-            name: category.name,
-            description: category.description,
-        });
-
-        await expect(createCategoryUserCase.execute({
-            name: category.name,
-            description: category.description,
-        })).rejects.toBeInstanceOf(AppError);
-    });
+    await expect(
+      createCategoryUserCase.execute({
+        name: category.name,
+        description: category.description,
+      }),
+    ).rejects.toBeInstanceOf(AppError);
+  });
 });

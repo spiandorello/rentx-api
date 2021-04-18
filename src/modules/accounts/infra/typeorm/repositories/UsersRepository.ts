@@ -5,34 +5,41 @@ import IUsersRepository from '../../../repositories/IUsersRepository';
 import ICreateUserDto from '../../../dtos/ICreateUserDto';
 
 class UsersRepository implements IUsersRepository {
-    private repository: Repository<User>;
+  private repository: Repository<User>;
 
-    constructor() {
-        this.repository = getRepository(User);
-    }
+  constructor() {
+    this.repository = getRepository(User);
+  }
 
-    async find(id: string): Promise<User | undefined> {
-        return this.repository.findOne(id);
-    }
+  async find(id: string): Promise<User | undefined> {
+    return this.repository.findOne(id);
+  }
 
-    async findByEmail(email: string): Promise<User | undefined> {
-        return this.repository.findOne({ email });
-    }
+  async findByEmail(email: string): Promise<User | undefined> {
+    return this.repository.findOne({ email });
+  }
 
-    async create({ name, email, password, driverLicense, avatar, id }: ICreateUserDto): Promise<void> {
-        const user = new User();
+  async create({
+    name,
+    email,
+    password,
+    driverLicense,
+    avatar,
+    id,
+  }: ICreateUserDto): Promise<void> {
+    const user = new User();
 
-        Object.assign(user, {
-            id,
-            name,
-            email,
-            avatar,
-            password,
-            driverLicense
-        });
+    Object.assign(user, {
+      id,
+      name,
+      email,
+      avatar,
+      password,
+      driverLicense,
+    });
 
-        await this.repository.save(user);
-    }
+    await this.repository.save(user);
+  }
 }
 
 export default UsersRepository;

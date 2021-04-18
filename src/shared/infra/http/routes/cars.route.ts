@@ -7,8 +7,8 @@ import ensureAuthenticate from '@shared/infra/http/middlewares/ensureAuthenticat
 import UploadCarImageController from '@modules/cars/useCases/uploadCarImage/UploadCarImageController';
 import ListAvailableCarsController from '@modules/cars/useCases/listAvailableCars/ListAvailableCarsController';
 import CreateCarSpecificationController from '@modules/cars/useCases/createCarSpecification/CreateCarSpecificationController';
-import multer from "multer";
-import uploadConfig from "@config/upload";
+import multer from 'multer';
+import uploadConfig from '@config/upload';
 
 const carsRoute = Router();
 
@@ -19,23 +19,26 @@ const uploadCarsImageController = new UploadCarImageController();
 
 const uploadCarsImage = multer(uploadConfig);
 
-carsRoute.post('/',
-    ensureAuthenticate,
-    ensureAdmin,
-    createCarController.handle
+carsRoute.post(
+  '/',
+  ensureAuthenticate,
+  ensureAdmin,
+  createCarController.handle,
 );
 
-carsRoute.post('/:id/specifications',
-    ensureAuthenticate,
-    ensureAdmin,
-    createCarSpecificationController.handle
+carsRoute.post(
+  '/:id/specifications',
+  ensureAuthenticate,
+  ensureAdmin,
+  createCarSpecificationController.handle,
 );
 
-carsRoute.post('/:id/images',
-    ensureAuthenticate,
-    ensureAdmin,
-    uploadCarsImage.array('images'),
-    uploadCarsImageController.handle
+carsRoute.post(
+  '/:id/images',
+  ensureAuthenticate,
+  ensureAdmin,
+  uploadCarsImage.array('images'),
+  uploadCarsImageController.handle,
 );
 
 carsRoute.get('/available', listAvailableCarsController.handle);

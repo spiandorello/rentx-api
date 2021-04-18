@@ -6,23 +6,23 @@ import IUserResponseDTO from '@modules/accounts/dtos/IUserResponseDto';
 import IUsersRepository from '@modules/accounts/repositories/IUsersRepository';
 
 interface IRequest {
-    id: string;
+  id: string;
 }
 
 @injectable()
 class ProfileUserUseCase {
-    constructor(
-        @inject('UsersRepository')
-        private usersRepository: IUsersRepository
-    ) {}
+  constructor(
+    @inject('UsersRepository')
+    private usersRepository: IUsersRepository,
+  ) {}
 
-    async execute({ id }: IRequest): Promise<IUserResponseDTO> {
-        const user = await this.usersRepository.find(id);
-        if (!user) {
-            throw new AppError('User not found');
-        }
-        return UserMap.toDTO(user);
+  async execute({ id }: IRequest): Promise<IUserResponseDTO> {
+    const user = await this.usersRepository.find(id);
+    if (!user) {
+      throw new AppError('User not found');
     }
+    return UserMap.toDTO(user);
+  }
 }
 
 export default ProfileUserUseCase;

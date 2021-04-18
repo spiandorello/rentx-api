@@ -16,17 +16,22 @@ const listCategoriesController = new ListCategoriesController();
 const importCategoryController = new ImportCategoryController();
 
 const upload = multer({
-   dest: './tmp/'
+  dest: './tmp/',
 });
 
-categoriesRoute.post('/',
-    ensureAuthenticate,
-    ensureAdmin,
-    createCategoryController.handle
+categoriesRoute.post(
+  '/',
+  ensureAuthenticate,
+  ensureAdmin,
+  createCategoryController.handle,
 );
 
 categoriesRoute.get('/', listCategoriesController.handle);
 
-categoriesRoute.post('/import', upload.single('file'), importCategoryController.handle);
+categoriesRoute.post(
+  '/import',
+  upload.single('file'),
+  importCategoryController.handle,
+);
 
 export default categoriesRoute;

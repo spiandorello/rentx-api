@@ -8,10 +8,11 @@ import ensureAuthenticate from '@shared/infra/http/middlewares/ensureAuthenticat
 const specificationsRoute = Router();
 const createSpecificationController = new CreateSpecificationController();
 
-specificationsRoute.post('/',
-    ensureAuthenticate,
-    ensureAdmin,
-    createSpecificationController.handle
+specificationsRoute.post(
+  '/',
+  ensureAuthenticate,
+  ensureAdmin,
+  createSpecificationController.handle,
 );
 
 // specificationsRoute.get('/', (request: Request, response: Response) => {

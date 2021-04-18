@@ -5,14 +5,14 @@ import ICategoriesRepository from '@modules/cars/repositories/ICategoriesReposit
 
 @injectable()
 class ListCategoriesUseCase {
-    constructor(
-        @inject('CategoriesRepository')
-        private categoriesRepository: ICategoriesRepository
-    ) {}
+  constructor(
+    @inject('CategoriesRepository')
+    private categoriesRepository: ICategoriesRepository,
+  ) {}
 
-    async execute(): Promise<Category[]> {
-        return this.categoriesRepository.findAll();
-    }
+  async execute(): Promise<Category[]> {
+    return this.categoriesRepository.findAll();
+  }
 }
 
 export default ListCategoriesUseCase;

@@ -1,13 +1,11 @@
 import Specification from '@modules/cars/infra/typeorm/entities/Specification';
 
-interface ISpecificationsRepository {
-    findByIds(ids: string[]): Promise<Specification[]>;
+export default interface ISpecificationsRepository {
+  findByIds(ids: string[]): Promise<Specification[]>;
 
-    findByName(name: string): Promise<Specification | undefined>;
+  findByName(name: string): Promise<Specification | undefined>;
 
-    findAll(): Promise<Specification[]>;
+  findAll(): Promise<Specification[]>;
 
-    save(data: Specification): Promise<Specification>;
+  save(data: Specification): Promise<Specification>;
 }
-
-export default ISpecificationsRepository;
